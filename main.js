@@ -4,8 +4,8 @@ const { postarNoX } = require('./src/services/twitterService.js');
 
 async function main() {
   console.log('🚀 Iniciando bot...');
-  const noticiaEsportiva = await buscarNoticiasEsportivas();
-  if (noticiaEsportiva) await postarNoX(noticiaEsportiva);
+  const noticia = await buscarNoticiasEsportivas('NBA');
+  if (noticia) await postarNoX(noticia);
 
   iniciarAgendamentos();
 }
