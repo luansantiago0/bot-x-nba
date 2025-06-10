@@ -4,11 +4,22 @@ const path = require('path');
 const CACHE_FILE = path.join(__dirname, '../../cache.json');
 
 function carregarCache() {
-  if (!fs.existsSync(CACHE_FILE)) {
-    fs.writeFileSync(CACHE_FILE, JSON.stringify([]));
+  try {
+    if (!fs.existsSync(CACHE_FILE)) {
+      fs.writeFileSync(CACHE_FILE, JSON.stringify([]));
+      return [];
+    }
+    const data = fs.readFileSync(CACHE_FILE, 'utf8');
+    if (!data) {
+      // Arquivo vazio
+      return [];
+    }
+    return JSON.parse(data);
+  } catch (error) {
+    console.error('Erro ao carregar cache:', error);
+    // Em caso de erro de parse, zera o cache
+    return [];
   }
-  const data = fs.readFileSync(CACHE_FILE, 'utf8');
-  return JSON.parse(data);
 }
 
 function salvarCache(cache) {
@@ -29,6 +40,8 @@ function adicionarAoCache(link) {
 }
 
 module.exports = {
+  carregarCache,
+  salvarCache,
   noticiaJaPostada,
   adicionarAoCache,
 };

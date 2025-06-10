@@ -12,21 +12,27 @@ async function buscarNoticiasEsportivas(termo) {
 
     for (const item of itens) {
       const link = item.link[0];
+      // Só processa notícia se ainda não foi postada (não está no cache)
       if (!noticiaJaPostada(link)) {
         adicionarAoCache(link);
         const titulo = item.title[0];
         const hashtags = gerarHashtags(titulo);
-        return `📰 ${termo.toUpperCase()}: ${titulo} - ${link} ${hashtags}`;
+        return {
+          conteudo: `📰 ${termo.toUpperCase()}: ${titulo} - ${link} ${hashtags}`,
+          link,
+        };
       }
+      // Se já foi postada, passa pra próxima notícia do for
     }
 
-    console.log(`Nenhuma nova notícia de ${termo}`);
-    return null;
+    console.log(`Nenhuma nova notícia de ${termo} para postar.`);
+    return null; // Nenhuma notícia nova encontrada
   } catch (error) {
     console.error(`Erro ao buscar notícia de ${termo}:`, error);
     return null;
   }
 }
+
 
 function gerarHashtags(titulo) {
   const palavrasChave = ['NBA', 'UFC', 'NFL', 'playoffs', 'finals', 'luta', 'basquete', 'futebol', 'americano'];
