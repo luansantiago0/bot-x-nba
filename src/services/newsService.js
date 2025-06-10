@@ -12,7 +12,6 @@ async function buscarNoticiasEsportivas(termo) {
 
     for (const item of itens) {
       const link = item.link[0];
-      // Só processa notícia se ainda não foi postada (não está no cache)
       if (!noticiaJaPostada(link)) {
         adicionarAoCache(link);
         const titulo = item.title[0];
@@ -22,11 +21,10 @@ async function buscarNoticiasEsportivas(termo) {
           link,
         };
       }
-      // Se já foi postada, passa pra próxima notícia do for
     }
 
     console.log(`Nenhuma nova notícia de ${termo} para postar.`);
-    return null; // Nenhuma notícia nova encontrada
+    return null;
   } catch (error) {
     console.error(`Erro ao buscar notícia de ${termo}:`, error);
     return null;

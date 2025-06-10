@@ -8,7 +8,6 @@ async function main() {
   const noticia = await buscarNoticiasEsportivas('UFC');
 
   if (noticia) {
-    // Passar a string 'conteudo' para o gerador de tweet
     const tweet = await gerarTweetCriativo(noticia.conteudo);
     if (tweet) {
       await postarNoX(tweet);
