@@ -1,8 +1,10 @@
 const wa = require('@open-wa/wa-automate');
-const { buscarNoticiasEsportivas } = require('./src/services/newsService');
-const { gerarTweetCriativo } = require('./src/services/mistralService');
+const { buscarNoticiasEsportivas } = require('./newsService.js');
+const { gerarTweetCriativo } = require('./mistralService.js');
 
-wa.create().then(client => {
+async function iniciarWhatsappBot() {
+  const client = await wa.create();
+
   console.log('🤖 Bot do WhatsApp iniciado!');
 
   client.onMessage(async message => {
@@ -28,4 +30,6 @@ wa.create().then(client => {
       }
     }
   });
-});
+}
+
+module.exports = { iniciarWhatsappBot };

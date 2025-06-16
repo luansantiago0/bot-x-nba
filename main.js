@@ -1,28 +1,29 @@
-const { iniciarAgendamentos } = require('./src/jobs/scheduler.js');
 const { buscarNoticiasEsportivas } = require('./src/services/newsService.js');
 const { gerarTweetCriativo } = require('./src/services/mistralService.js');
 const { postarNoX } = require('./src/services/twitterService.js');
+const { iniciarAgendamentos } = require('./src/jobs/scheduler.js');
+const { iniciarWhatsappBot } = require('./src/services/whatsappService.js');
 
 async function main() {
   console.log('🚀 Iniciando bot...');
 
   try {
-    // Executa uma notícia imediatamente (opcional)
+    // Postagem inicial opcional
     const noticia = await buscarNoticiasEsportivas('UFC');
     if (noticia) {
       const tweet = await gerarTweetCriativo(noticia.conteudo);
       if (tweet) {
         await postarNoX(tweet);
       }
-    } else {
-      console.log('Nenhuma notícia nova para postar agora.');
     }
 
-    // Aguarda alguns segundos para não colidir com os crons
+    iniciarWhatsappBot();
+
+    // Aguarda antes de iniciar os agendamentos
     setTimeout(() => {
       console.log('📅 Iniciando agendamentos...');
       iniciarAgendamentos();
-    }, 10000); // 10 segundos de delay antes de iniciar os crons
+    }, 10000);
 
   } catch (err) {
     console.error('Erro na execução principal:', err.message);
