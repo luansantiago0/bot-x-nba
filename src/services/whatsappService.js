@@ -1,5 +1,5 @@
 const wa = require('@open-wa/wa-automate');
-const { buscarNoticiasEsportivas } = require('./newsService.js');
+const { buscarNoticias } = require('./newsService.js');
 const { gerarTweetCriativo } = require('./mistralService.js');
 
 async function iniciarWhatsappBot() {
@@ -17,7 +17,7 @@ async function iniciarWhatsappBot() {
 
       console.log(`🔍 Buscando notícia sobre: ${termo}`);
 
-      const noticia = await buscarNoticiasEsportivas(termo);
+      const noticia = await buscarNoticias(termo);
       if (noticia) {
         const tweet = await gerarTweetCriativo(noticia.conteudo);
         if (tweet) {

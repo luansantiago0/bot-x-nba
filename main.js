@@ -1,4 +1,4 @@
-const { buscarNoticiasEsportivas } = require('./src/services/newsService.js');
+const { buscarNoticias } = require('./src/services/newsService.js');
 const { gerarTweetCriativo } = require('./src/services/mistralService.js');
 const { postarNoX } = require('./src/services/twitterService.js');
 const { iniciarAgendamentos } = require('./src/jobs/scheduler.js');
@@ -9,7 +9,7 @@ async function main() {
 
   try {
     // Postagem inicial opcional
-    const noticia = await buscarNoticiasEsportivas('UFC');
+    const noticia = await buscarNoticias('UFC');
     if (noticia) {
       const tweet = await gerarTweetCriativo(noticia.conteudo);
       if (tweet) {

@@ -2,7 +2,7 @@ const axios = require('axios');
 const { parseStringPromise } = require('xml2js');
 const { noticiaJaPostada, adicionarAoCache } = require('../utils/cache');
 
-async function buscarNoticiasEsportivas(termo) {
+async function buscarNoticias(termo) {
   try {
     const url = `https://news.google.com/rss/search?q=${encodeURIComponent(termo)}&hl=pt-BR&gl=BR&ceid=BR:pt-419`;
     const response = await axios.get(url);
@@ -40,4 +40,4 @@ function gerarHashtags(titulo) {
   return hashtags.length ? hashtags.join(' ') : '';
 }
 
-module.exports = { buscarNoticiasEsportivas };
+module.exports = { buscarNoticias };
